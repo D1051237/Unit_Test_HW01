@@ -86,16 +86,18 @@ class triangle {
 
 // Class Person
 class Person{
-    String Name;
-    int Birth_y;
-    int age;
-    float height;
-    float weight;
+    String Name; //姓名
+    int Birth_y; //生日年
+    int age; //年齡
+    float height; //身高
+    float weight; //體重
     float BMI;
 
-    public Person(String name, int birth_y){
+    public Person(String name, int birth_y) throws Exception {
         this.Name = name;
         this.Birth_y = birth_y;
+        this.age = 2023 - birth_y;
+        if(age < 0 || age > 100){throw new Exception("invalid age");}
     }
 
     public Person(String name, int birth_y, float height, float weight) throws Exception {
@@ -109,42 +111,46 @@ class Person{
     }
 
     public void setHW(float height, float weight) throws Exception {
-        if (height > 2.2) {
-            throw new Exception("invalid height");
+        if (height > 220 || height < 73) { //身高大於220公分或低於73公分的情況
+            throw new Exception("invalid height"); //拋出非法身高
+        }
+        if (weight > 635 || weight < 0) { //體重大於635公斤或低於0公斤的情況
+            throw new Exception("invalid height"); //拋出非法體重
         }
         this.height = height;
         this.weight = weight;
-        this.BMI = weight / (height * height);
+        this.BMI = weight / (height/100 * height/100);
     }
 
-    public float getBMI(){
-        assert (this.BMI > 10 && this.BMI <= 50) : "invalid BMI";
-        return this.BMI;
+    public float getBMI() throws Exception {
+        if(this.BMI < 10 || this.BMI > 50){ // BMI小於10或大於50的情況
+            throw new Exception("invalid BMI"); //拋出非法BMI
+        }
+        else{
+            return this.BMI;
+        }
     }
-
     public int getAge(){
         return this.age;
     }
 
     public static void main(String args[]){
-        Person King = new Person("King", 2003);
-        float bmi;
+        String name;int birth_y;float height;float weight;
         try {
-            King.setHW(1.7f, 1000);
-            bmi = King.getBMI();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.printf("%s's BMI: %.2f\n",King.Name,bmi);
-
-        Person Joe = null;
-        try {
-            Joe = new Person("Joe", 1998, 1.7f, 60);
+            Scanner sc = new Scanner(System.in);
+            System.out.print("輸入名字: ");name = sc.nextLine();
+            System.out.print("輸入生日年: ");birth_y = sc.nextInt();
+            System.out.print("輸入身高(公分): ");height = sc.nextFloat();
+            System.out.print("輸入體重(公斤): ");weight = sc.nextFloat();
+            Person p = new Person(name,birth_y,height,weight);
+            float bmi = p.getBMI();
+            System.out.printf("---[%s's health information]---\n",p.Name);
+            System.out.printf("\t%s is %d years old now.\n",p.Name,p.getAge());
+            System.out.printf("\tThe BMI of %s is %.2f\n",p.Name,bmi);
+        } catch (InputMismatchException ex){
+            System.out.println("輸入型態錯誤!! ,請重新輸入!!");
         } catch (Exception e){
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
-        bmi = Joe.getBMI();
-        System.out.printf("%s's BMI: %.2f\n",Joe.Name,bmi);
     }
 }
