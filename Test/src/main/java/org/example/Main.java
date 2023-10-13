@@ -94,18 +94,19 @@ class Person{
     float BMI;
 
     public Person(String name, int birth_y) throws Exception {
-        this.Name = name;
-        this.Birth_y = birth_y;
+        this.Name = name;this.Birth_y = birth_y;
         this.age = 2023 - birth_y;
-        if(age < 0 || age > 100){throw new Exception("invalid age");}
+        if(age < 0 || age > 100){ //年齡超過100歲或少於0歲的情況
+            throw new Exception("invalid age"); //拋出非法年齡
+        }
     }
 
     public Person(String name, int birth_y, float height, float weight) throws Exception {
         this.Name = name;
         this.Birth_y = birth_y;
         this.age = 2023 - birth_y;
-        if(age < 0 || age > 100){
-            throw new Exception("invalid age");
+        if(age < 0 || age > 100){ //年齡超過100歲或少於0歲的情況
+            throw new Exception("invalid age"); //拋出非法年齡
         }
         setHW(height, weight);
     }
@@ -115,7 +116,7 @@ class Person{
             throw new Exception("invalid height"); //拋出非法身高
         }
         if (weight > 635 || weight < 0) { //體重大於635公斤或低於0公斤的情況
-            throw new Exception("invalid height"); //拋出非法體重
+            throw new Exception("invalid weight"); //拋出非法體重
         }
         this.height = height;
         this.weight = weight;
